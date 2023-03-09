@@ -35,8 +35,8 @@ public class firstFragment extends Fragment {
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Snackbar snackbar = Snackbar.make(v, "use your goddamn support!", Snackbar.LENGTH_INDEFINITE);
-                snackbar.setAction("FUCK YEAH", new View.OnClickListener() {
+                Snackbar snackbar = Snackbar.make(v, "use your support!", Snackbar.LENGTH_INDEFINITE);
+                snackbar.setAction("OK", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         snackbar.dismiss();

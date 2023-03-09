@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class explain_activity extends AppCompatActivity {
@@ -16,23 +17,21 @@ public class explain_activity extends AppCompatActivity {
         // Find the TextView by its ID
         TextView textView1 = findViewById(R.id.textView_1);
         TextView textView2 = findViewById(R.id.textView2_1);
-        TextView textView3 = findViewById(R.id.textView3_1);
-        TextView textView4 = findViewById(R.id.textView4_1);
-
-        // Set the text of the TextView
-
+        TextView textViewExplain = findViewById(R.id.explain_text);
+        ImageView image = findViewById(R.id.image_explain);
 
         Intent intent = getIntent();
         String name = intent.getStringExtra("NAME");
-        int position = intent.getIntExtra("POSITION", 0);
         String title = intent.getStringExtra("TITLE");
         String subtitle = intent.getStringExtra("SUBTITLE");
-        int image = intent.getIntExtra("ÏMAGE", 0);
+        String explain = intent.getStringExtra("EXPLAIN");
+        int image_source = intent.getIntExtra("IMAGE", 0);
 
-        textView1.setText(name);
-        textView2.setText(position);
-        textView3.setText(title);
-        textView4.setText(subtitle);
+        // Set the text of the TextView
+        textView1.setText(title);
+        textView2.setText(subtitle);
+        textViewExplain.setText(explain);
+        image.setImageResource(image_source);
     }}
 
 
