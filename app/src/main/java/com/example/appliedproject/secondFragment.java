@@ -95,12 +95,12 @@ public class secondFragment extends Fragment implements RecyclerViewInterface {
         items.add(new Item("The vowels", "How to pronounce in my own language?","Universal’ tongue positions for singing. We use ‘universal’ tongue positions for shaping\n" +
                 "the vowels. They are displayed on the chart. (Show tongue/vowel chart) The chart is a\n" +
                 "guideline for the general placing of the tongue in order to avoid tightening of the lips when\n" +
-                "pronuncing the vowels, not depicting all anatomical variations of each tongue position. If we\n" +
+                "pronouncing the vowels, not depicting all anatomical variations of each tongue position. If we\n" +
                 "choose these positions we can pronounce all sounds and avoid using the lips and protruding\n" +
                 "the jaw, that might trigger uncontrolled constriction.\n" +
                 "• Main vowels. We have 8 vowels we refer to as the main vowels.\n" +
                 "• Back vowels: ‘OO’ like ‘too’ – ‘O’ like ‘woman’ – ‘OH’ like ‘so’ – and ‘Ah’ – like ‘far.’ (Sound\n" +
-                "example and show on chart) We often use the lips for pronuncing these vowels.", R.drawable.all_vowels));
+                "example and show on chart) We often use the lips for pronouncing these vowels.", R.drawable.all_vowels));
 
 
 
