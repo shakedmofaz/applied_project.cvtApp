@@ -5,19 +5,21 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
-
 import android.renderscript.Sampler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.appliedproject.dsp.AudioDispatcher;
+//import com.example.appliedproject.dsp.AudioDispatcher;
 import com.example.appliedproject.dsp.io.android.AudioDispatcherFactory;
-import com.example.appliedproject.dsp.pitch.PitchDetectionHandler;
-import com.example.appliedproject.dsp.pitch.PitchProcessor;
-
+//import com.example.appliedproject.dsp.pitch.PitchDetectionHandler;
+//import com.example.appliedproject.dsp.pitch.PitchProcessor;
+import be.tarsos.dsp.AudioDispatcher;
+//import be.tarsos.dsp.io.android.AudioDispatcherFactory;
+import be.tarsos.dsp.pitch.PitchDetectionHandler;
+import be.tarsos.dsp.pitch.PitchProcessor;
+import be.tarsos.dsp.pitch.PitchProcessor.PitchEstimationAlgorithm;
 import java.util.ArrayList;
 import java.util.List;
 
