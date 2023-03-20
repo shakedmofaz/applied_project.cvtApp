@@ -29,5 +29,12 @@
         android:src="@android:drawable/ic_btn_speak_now"
         app:backgroundTint="#7D0930" />
 
+    <com.github.cythara.TunerView
+        android:id="@+id/pitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme" />
+
+
 
 </FrameLayout>
