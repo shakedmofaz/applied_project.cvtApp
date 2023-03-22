@@ -5,17 +5,17 @@ import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.View;
 
-public class MyTunnerView extends View {
+public class MyTunerView extends View {
 
     private MyCanvasPainter canvasPainter;
     private MyPitchDifference pitchDifference;
 
-    public MyTunnerView(Context context) {
+    public MyTunerView(Context context) {
         super(context);
         canvasPainter = MyCanvasPainter.with(getContext());
     }
 
-    public MyTunnerView(Context context, AttributeSet attrs) {
+    public MyTunerView(Context context, AttributeSet attrs) {
         super(context, attrs);
         canvasPainter = MyCanvasPainter.with(getContext());
     }
