@@ -7,14 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".firstFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="This is where the tuner is gonna be"
-        android:textSize="30sp"
-        android:textColor="@color/black"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
@@ -29,15 +21,18 @@
         android:src="@android:drawable/ic_btn_speak_now"
         app:backgroundTint="#7D0930" />
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/my_toolbar"
+
+    <com.jaredrummler.materialspinner.MaterialSpinner
+        android:id="@+id/tuning"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="#A9204E"
-        android:elevation="4dp" />
+        android:contentDescription="hello world"
+        android:layout_height="wrap_content" />
 
 
-
-
+    <com.example.appliedproject.MyTunerView
+        android:id="@+id/myPitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme" />
 
 </FrameLayout>

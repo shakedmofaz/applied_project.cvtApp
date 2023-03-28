@@ -66,13 +66,16 @@ public class firstFragment extends Fragment implements SubTunerFragment.TaskCall
         // Required empty public constructor
     }
 
+    public static int getReferencePitch() {
+        return referencePitch;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentFirstBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
-        MyTunerView customView = binding.customView;  ?????
+        MyTunerView customView = binding.myPitch;
         // cythara
         super.onCreate(savedInstanceState);
 
@@ -108,6 +111,7 @@ public class firstFragment extends Fragment implements SubTunerFragment.TaskCall
 
 
 
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -122,7 +126,8 @@ public class firstFragment extends Fragment implements SubTunerFragment.TaskCall
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
-        /*super.onCreate(savedInstanceState);
+        /*
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         Tuning chromaticTuner = new ChromaticTuning();
@@ -159,7 +164,7 @@ public class firstFragment extends Fragment implements SubTunerFragment.TaskCall
 
     @Override
     public void onProgressUpdate(MyPitchDifference pitchDifference) {
-        MyTunerView tunerView = this.view.findViewById(R.id.pitch);
+        MyTunerView tunerView = this.view.findViewById(R.id.myPitch);
 
         tunerView.setPitchDifference(pitchDifference);
         tunerView.invalidate();
@@ -175,8 +180,7 @@ public class firstFragment extends Fragment implements SubTunerFragment.TaskCall
     // The activity will remain in the background and can be resumed later by the user or by another part of the app.
 
 
-
-    @Override
+   /* @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -203,7 +207,7 @@ public class firstFragment extends Fragment implements SubTunerFragment.TaskCall
         }
     }
 
-
+*/
 
     @Override
     public void onItemSelected(MaterialSpinner view, int position, long id, Object item) {
@@ -239,7 +243,7 @@ public class firstFragment extends Fragment implements SubTunerFragment.TaskCall
 
             setReferencePitch();
 
-            MyTunerView tunerView = this.view.findViewById(R.id.pitch);
+            MyTunerView tunerView = this.view.findViewById(R.id.myPitch);
             tunerView.invalidate();
         } else if ("note_picker".equalsIgnoreCase(tag)) {
             isAutoModeEnabled = newValue == 0;
@@ -264,6 +268,10 @@ public class firstFragment extends Fragment implements SubTunerFragment.TaskCall
         }
     }
 
+    public static MyTuning getCurrentTuning() {
+        return MyTuningMapper.getTuningFromPosition(tuningPosition);
+    }
+
     private void setTuning() {
         final SharedPreferences preferences = requireActivity().getSharedPreferences(PREFS_FILE,
                 MODE_PRIVATE);
@@ -272,7 +280,7 @@ public class firstFragment extends Fragment implements SubTunerFragment.TaskCall
         int textColorDark = getResources().getColor(R.color.colorTextDark);
 
         MaterialSpinner spinner = view.findViewById(R.id.tuning);
-        MaterialSpinnerAdapter<String> adapter = new MaterialSpinnerAdapter<>(this,
+        MaterialSpinnerAdapter<String> adapter = new MaterialSpinnerAdapter<String>(getContext(),
                 Arrays.asList(getResources().getStringArray(R.array.tunings)));
 
         spinner.setAdapter(adapter);

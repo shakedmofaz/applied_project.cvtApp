@@ -118,7 +118,7 @@ public class SubTunerFragment extends Fragment  {
 
                     if (pitchDifferences.size() >= MIN_ITEMS_COUNT) {
                         MyPitchDifference average =
-                                Sampler.calculateAverageDifference(pitchDifferences);
+                                MySampler.calculateAverageDifference(pitchDifferences);
 
                         publishProgress(average);
 

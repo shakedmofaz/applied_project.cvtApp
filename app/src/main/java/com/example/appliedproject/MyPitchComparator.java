@@ -14,7 +14,7 @@ class MyPitchComparator {
         if (firstFragment.isAutoModeEnabled()) {
             notes = tuningNotes;
         } else {
-            notes = new MyNote[]{tuningNotes[MainActivity.getReferencePosition()]};
+            notes = new MyNote[]{tuningNotes[firstFragment.getReferencePosition()]};
         }
 
         MyNoteFrequencyCalculator noteFrequencyCalculator =
