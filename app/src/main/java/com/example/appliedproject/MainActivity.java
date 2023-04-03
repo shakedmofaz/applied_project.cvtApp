@@ -19,19 +19,22 @@ import android.view.ViewGroup;
 import com.example.appliedproject.ui.main.SectionsPagerAdapter;
 import com.example.appliedproject.databinding.ActivityMainBinding;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements BridgeFragmentInterface {
 
 
     private ActivityMainBinding binding;
+
+    private static final String TAG_LISTENER_FRAGMENT = "fragment_sub_tuner";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        //binding = ActivityMainBinding.inflate(getLayoutInflater());
+        //setContentView(binding.getRoot());
 
+        setContentView(R.layout.activity_main);
        /* firstFragment fragmentA = new firstFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -44,9 +47,11 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction2.commit();*/
 
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
-        ViewPager viewPager = binding.viewPager;
+        //ViewPager viewPager = binding.viewPager;
+        ViewPager viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(sectionsPagerAdapter);
-        TabLayout tabs = binding.tabs;
+        //TabLayout tabs = binding.tabs;
+        TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
 
         // Change the text of the first tab to "Tuner"
@@ -76,5 +81,20 @@ public class MainActivity extends AppCompatActivity {
                 snackbar.show();
             }
         });*/
+    }
+
+    @Override
+    public void openSubFragmentEvent(){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        SubTunerFragment listenerFragment = (SubTunerFragment)
+                fragmentManager.findFragmentByTag(TAG_LISTENER_FRAGMENT);
+
+        if (listenerFragment == null) {
+            listenerFragment = new SubTunerFragment();
+            fragmentManager
+                    .beginTransaction()
+                    .add(listenerFragment, TAG_LISTENER_FRAGMENT)
+                    .commit();
+        }
     }
 }

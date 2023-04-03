@@ -2,35 +2,27 @@ package com.example.appliedproject;
 
 import static android.content.Context.MODE_PRIVATE;
 
-import static androidx.core.app.ActivityCompat.recreate;
-
 import android.Manifest;
-import android.content.Intent;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.appliedproject.databinding.FragmentFirstBinding;
+import com.example.appliedproject.mytuning.MyChromaticTuning;
 import com.google.android.material.snackbar.Snackbar;
 import com.jaredrummler.materialspinner.MaterialSpinner;
+import com.jaredrummler.materialspinner.MaterialSpinner.OnItemSelectedListener;
 import com.jaredrummler.materialspinner.MaterialSpinnerAdapter;
 import com.shawnlin.numberpicker.NumberPicker;
 import com.shawnlin.numberpicker.NumberPicker.OnValueChangeListener;
@@ -42,7 +34,7 @@ import java.util.Arrays;
  * create an instance of this fragment.
  */
 public class firstFragment extends Fragment implements SubTunerFragment.TaskCallbacks,
-        MaterialSpinner.OnItemSelectedListener, OnValueChangeListener {
+        OnItemSelectedListener, OnValueChangeListener {
 
     private FragmentFirstBinding binding;
 
@@ -51,7 +43,8 @@ public class firstFragment extends Fragment implements SubTunerFragment.TaskCall
     public static final String USE_SCIENTIFIC_NOTATION = "use_scientific_notation";
     public static final String CURRENT_TUNING = "current_tuning";
     protected static final String REFERENCE_PITCH = "reference_pitch";
-    private static final String TAG_LISTENER_FRAGMENT = "listener_fragment";
+    //private static final String TAG_LISTENER_FRAGMENT = "listener_fragment";
+    private static final String TAG_LISTENER_FRAGMENT = "fragment_sub_tuner";
     private static final String USE_DARK_MODE = "use_dark_mode";
     private static int referencePitch;
     private static int referencePosition;
@@ -61,6 +54,8 @@ public class firstFragment extends Fragment implements SubTunerFragment.TaskCall
         return true;
     }
     private static boolean isAutoModeEnabled = true;
+
+    private BridgeFragmentInterface listener;
 
     public firstFragment() {
         // Required empty public constructor
@@ -72,26 +67,27 @@ public class firstFragment extends Fragment implements SubTunerFragment.TaskCall
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentFirstBinding.inflate(inflater, container, false);
-        View view = binding.getRoot();
-
-        MyTunerView customView = binding.myPitch;
-        // cythara
+        //binding = FragmentFirstBinding.inflate(inflater, container, false);
         super.onCreate(savedInstanceState);
+        view = inflater.inflate(R.layout.fragment_first, container, false);
 
-        view = inflater.inflate(R.layout.fragment_second, container, false);
+        //requireActivity().setContentView(R.layout.fragment_first);
+        //MyTuning chromaticTuner = new MyChromaticTuning();
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+        int permissionCheck = ContextCompat.checkSelfPermission(getContext(),
+                Manifest.permission.RECORD_AUDIO);
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            requestRecordAudioPermission();
+        } else {
+            startRecording();
+        }
 
-        requireActivity().setContentView(R.layout.activity_main);
+        //requireActivity().setContentView(R.layout.fragment_first);
+        setTuning();
+        setReferencePitch();
+        requireActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        MyTuning chromaticTuner = new MyChromaticTuning();
-        //updateTuner(chromaticTuner);
-
-
-
-
-
-
-        binding.fab.setOnClickListener(new View.OnClickListener() {
+        /*binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Snackbar snackbar = Snackbar.make(v, "use your support!", Snackbar.LENGTH_INDEFINITE);
@@ -104,7 +100,7 @@ public class firstFragment extends Fragment implements SubTunerFragment.TaskCall
                 snackbar.setActionTextColor(getResources().getColor(android.R.color.holo_red_dark)); // set the action button color
                 snackbar.show();
             }
-        });
+        });*/
         return view;
     }
 
@@ -123,15 +119,8 @@ public class firstFragment extends Fragment implements SubTunerFragment.TaskCall
         return referencePosition - 1; //to account for the position of the AUTO option
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-
-        /*
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        Tuning chromaticTuner = new ChromaticTuning();
-        updateTuner(chromaticTuner);*/
+    //@Override
+   /* public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
@@ -158,13 +147,22 @@ public class firstFragment extends Fragment implements SubTunerFragment.TaskCall
        // myToolbar.setTitle(R.string.app_name);
        // myToolbar.showOverflowMenu();
        // setSupportActionBar(myToolbar);
-    }
+
+
+           /*
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        Tuning chromaticTuner = new ChromaticTuning();
+        updateTuner(chromaticTuner);*/
+   // } */
 
 
 
     @Override
     public void onProgressUpdate(MyPitchDifference pitchDifference) {
-        MyTunerView tunerView = this.view.findViewById(R.id.myPitch);
+        View currentView = binding.getRoot();
+        MyTunerView tunerView = currentView.findViewById(R.id.myPitch);
 
         tunerView.setPitchDifference(pitchDifference);
         tunerView.invalidate();
@@ -243,7 +241,8 @@ public class firstFragment extends Fragment implements SubTunerFragment.TaskCall
 
             setReferencePitch();
 
-            MyTunerView tunerView = this.view.findViewById(R.id.myPitch);
+            View currentView = binding.getRoot();
+            MyTunerView tunerView = currentView.findViewById(R.id.myPitch);
             tunerView.invalidate();
         } else if ("note_picker".equalsIgnoreCase(tag)) {
             isAutoModeEnabled = newValue == 0;
@@ -255,7 +254,8 @@ public class firstFragment extends Fragment implements SubTunerFragment.TaskCall
     }
 
     private void startRecording() {
-        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        listener.openSubFragmentEvent();
+        /*FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
         SubTunerFragment listenerFragment = (SubTunerFragment)
                 fragmentManager.findFragmentByTag(TAG_LISTENER_FRAGMENT);
 
@@ -265,7 +265,7 @@ public class firstFragment extends Fragment implements SubTunerFragment.TaskCall
                     .beginTransaction()
                     .add(listenerFragment, TAG_LISTENER_FRAGMENT)
                     .commit();
-        }
+        }*/
     }
 
     public static MyTuning getCurrentTuning() {
@@ -298,5 +298,15 @@ public class firstFragment extends Fragment implements SubTunerFragment.TaskCall
     private void requestRecordAudioPermission() {
         ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.RECORD_AUDIO},
                 RECORD_AUDIO_PERMISSION);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof BridgeFragmentInterface) {
+            listener = (BridgeFragmentInterface) context;
+        } else {
+            throw new RuntimeException(context.toString() + " must implement FragmentAListener");
+        }
     }
 }

@@ -1,6 +1,10 @@
-package com.example.appliedproject;
+package com.example.appliedproject.mytuning;
 
 import static com.example.appliedproject.MyNoteName.*;
+
+import com.example.appliedproject.MyNote;
+import com.example.appliedproject.MyNoteName;
+import com.example.appliedproject.MyTuning;
 
 public class MyChromaticTuning implements MyTuning {
 

@@ -24,10 +24,9 @@ public class secondFragment extends Fragment implements RecyclerViewInterface {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.fragment_second);
 
+        //requireActivity().setContentView(R.layout.fragment_second);
         // use the inflater to inflate a layout file        View view = inflater.inflate(R.layout.fragment_second, container, false);
-
         // create a new LinearLayoutManager
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -41,17 +40,12 @@ public class secondFragment extends Fragment implements RecyclerViewInterface {
         recyclerView.setAdapter(new MyAdapter(this, getActivity().getApplicationContext(), items));
 
         return view;
-
     }
 
     private void GenerateItems()
     {
         items = new ArrayList<Item>();
         items.add(new Item("Support", "Control your breath", "This means working against the natural urge of the diaphragm to release the air that has been inhaled. This is achieved by resisting its movement. During singing, the waist muscles and solar plexus are pushed outwards whilst the abdomen around the navel is gradually pulled in, in a constant and sustained manner, and the back muscles are tightened. The muscles in the loin try to pull the pelvis backwards, while the muscles in the abdomen try to pull the pelvis up under your body.", R.drawable.abdomen));
-
-
-
-
 
         items.add(new Item("Twang", "Make the sound lighter", "When twanging, the petiole (lower part of the epiglottis) and the arytenoids are getting closer. It creates a narrowing of the airflow that makes this kind of snarling sound \n" +
                 "This narrowing creates an overpressure that makes it harder for the vocal cords to move but still we get the same volume and power. By that, protecting them from moving too wildly at loud volumes. Let’s try to find twang!\n" +
@@ -60,9 +54,6 @@ public class secondFragment extends Fragment implements RecyclerViewInterface {
                 "Now let’s sing an EE, and gradually reduce the amount of twang. \n" +
                 "\n" +
                 "We all need a minimum amount of twang in order to produce a healthy note, this is called the necessary twang. \n \n", R.drawable.twang));
-
-
-
 
         items.add(new Item("The modes", "Get to know your voice","Neutral: is a non metallic mode, a kind of a soft sound [single note in Na]. This is a Neutral\n" +
                 "note with air. We can also sing N without air: [single note in N]. It’s not that soft, but it’s still\n" +
@@ -90,8 +81,6 @@ public class secondFragment extends Fragment implements RecyclerViewInterface {
                 "So the rules are very specific for each mode and when we obey them we can do whatever\n" +
                 "we like. If we disobey them, we get in to trouble.", R.drawable.overview));
 
-
-
         items.add(new Item("The vowels", "How to pronounce in my own language?","Universal’ tongue positions for singing. We use ‘universal’ tongue positions for shaping\n" +
                 "the vowels. They are displayed on the chart. (Show tongue/vowel chart) The chart is a\n" +
                 "guideline for the general placing of the tongue in order to avoid tightening of the lips when\n" +
@@ -102,10 +91,7 @@ public class secondFragment extends Fragment implements RecyclerViewInterface {
                 "• Back vowels: ‘OO’ like ‘too’ – ‘O’ like ‘woman’ – ‘OH’ like ‘so’ – and ‘Ah’ – like ‘far.’ (Sound\n" +
                 "example and show on chart) We often use the lips for pronouncing these vowels.", R.drawable.all_vowels));
 
-
-
         items.add(new Item("Sound color", "How to change the way I sound?","All modes can be lightened or darkened, though some more than others. The sound colour is created in the vocal tract, which is the space above the vocal cords extending to the lips and including the nasal passages. The form and size of the vocal tract is of great importance to the sound colour. All singers have different vocal tracts, so all singers have their own personal sound colour. If the vocal tract is large, the sound colour will be darker. If it is small, the sound will be lighter. The shape of the vocal tract can be altered in many directions so there are many ways of changing the sound colour of your voice.", R.drawable.vocaltract));
-
     }
     @Override
     public void onItemClick(int position) {
@@ -115,10 +101,5 @@ public class secondFragment extends Fragment implements RecyclerViewInterface {
         intent.putExtra("IMAGE", items.get(position).getImage());
         intent.putExtra("EXPLAIN", items.get(position).getInnerExplain());
         startActivity(intent);
-    }    /*
-
-    @Override    public void onItemClick(int position) {
-        Intent.putExtra("Support", "Breathing techniques", R.drawable.support);        items.add(new Item("Twang", "Duck sound", R.drawable.twang));        items.add(new Item("The modes", "Know your voice", R.drawable.overview));        items.add(new Item("The vowels", "How to pronounce in my own language?", R.drawable.all_vowels));
-
-
-    }*/}
+    }
+}

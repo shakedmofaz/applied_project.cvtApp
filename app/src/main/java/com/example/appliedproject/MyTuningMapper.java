@@ -2,6 +2,8 @@ package com.example.appliedproject;
 
 import android.util.Log;
 
+import com.example.appliedproject.mytuning.MyChromaticTuning;
+
 public class MyTuningMapper {
     private static final int CHROMATIC_TUNING_POSITION = 0;
 
