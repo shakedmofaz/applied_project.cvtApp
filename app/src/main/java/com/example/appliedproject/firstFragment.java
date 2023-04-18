@@ -33,8 +33,7 @@ import java.util.Arrays;
  * Use the {@link firstFragment} factory method to
  * create an instance of this fragment.
  */
-public class firstFragment extends Fragment implements SubTunerFragment.TaskCallbacks,
-        OnItemSelectedListener, OnValueChangeListener {
+public class firstFragment extends Fragment implements OnItemSelectedListener, OnValueChangeListener {
 
     private FragmentFirstBinding binding;
 
@@ -74,7 +73,7 @@ public class firstFragment extends Fragment implements SubTunerFragment.TaskCall
         //requireActivity().setContentView(R.layout.fragment_first);
         //MyTuning chromaticTuner = new MyChromaticTuning();
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-        int permissionCheck = ContextCompat.checkSelfPermission(getContext(),
+        int permissionCheck = ContextCompat.checkSelfPermission(requireActivity(),
                 Manifest.permission.RECORD_AUDIO);
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
             requestRecordAudioPermission();
@@ -87,26 +86,8 @@ public class firstFragment extends Fragment implements SubTunerFragment.TaskCall
         setReferencePitch();
         requireActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        /*binding.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Snackbar snackbar = Snackbar.make(v, "use your support!", Snackbar.LENGTH_INDEFINITE);
-                snackbar.setAction("OK", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        snackbar.dismiss();
-                    }
-                });
-                snackbar.setActionTextColor(getResources().getColor(android.R.color.holo_red_dark)); // set the action button color
-                snackbar.show();
-            }
-        });*/
         return view;
     }
-
-
-
-
 
     @Override
     public void onDestroyView() {
@@ -114,60 +95,17 @@ public class firstFragment extends Fragment implements SubTunerFragment.TaskCall
         binding = null;
     }
 
-
     public static int getReferencePosition() {
         return referencePosition - 1; //to account for the position of the AUTO option
     }
 
     //@Override
-   /* public void onCreate(Bundle savedInstanceState) {
-
-        super.onCreate(savedInstanceState);
-        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-
-        int permissionCheck = ContextCompat.checkSelfPermission(getContext(),
-                Manifest.permission.RECORD_AUDIO);
-
-        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-            requestRecordAudioPermission();
-        } else {
-            startRecording();
-        }
-
-        //enableTheme();
-
-        requireActivity().setContentView(R.layout.fragment_first);
-
-        setTuning();
-        setReferencePitch();
-
-        requireActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-
-       // Toolbar myToolbar = findViewById(R.id.my_toolbar);
-       // myToolbar.setTitle(R.string.app_name);
-       // myToolbar.showOverflowMenu();
-       // setSupportActionBar(myToolbar);
-
-
-           /*
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        Tuning chromaticTuner = new ChromaticTuning();
-        updateTuner(chromaticTuner);*/
-   // } */
-
-
-
-    @Override
     public void onProgressUpdate(MyPitchDifference pitchDifference) {
-        View currentView = binding.getRoot();
-        MyTunerView tunerView = currentView.findViewById(R.id.myPitch);
+        MyTunerView tunerView = view.findViewById(R.id.myPitch);
 
         tunerView.setPitchDifference(pitchDifference);
         tunerView.invalidate();
     }
-
 
     //@Override
    // public void onBackPressed() {
@@ -241,8 +179,7 @@ public class firstFragment extends Fragment implements SubTunerFragment.TaskCall
 
             setReferencePitch();
 
-            View currentView = binding.getRoot();
-            MyTunerView tunerView = currentView.findViewById(R.id.myPitch);
+            MyTunerView tunerView = view.findViewById(R.id.myPitch);
             tunerView.invalidate();
         } else if ("note_picker".equalsIgnoreCase(tag)) {
             isAutoModeEnabled = newValue == 0;
@@ -280,7 +217,7 @@ public class firstFragment extends Fragment implements SubTunerFragment.TaskCall
         int textColorDark = getResources().getColor(R.color.colorTextDark);
 
         MaterialSpinner spinner = view.findViewById(R.id.tuning);
-        MaterialSpinnerAdapter<String> adapter = new MaterialSpinnerAdapter<String>(getContext(),
+        MaterialSpinnerAdapter<String> adapter = new MaterialSpinnerAdapter<String>(requireContext(),
                 Arrays.asList(getResources().getStringArray(R.array.tunings)));
 
         spinner.setAdapter(adapter);

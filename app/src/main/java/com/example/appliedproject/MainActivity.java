@@ -19,12 +19,26 @@ import android.view.ViewGroup;
 import com.example.appliedproject.ui.main.SectionsPagerAdapter;
 import com.example.appliedproject.databinding.ActivityMainBinding;
 
-public class MainActivity extends AppCompatActivity implements BridgeFragmentInterface {
+public class MainActivity extends AppCompatActivity implements BridgeFragmentInterface,
+        SubTunerFragment.TaskCallbacks{
 
 
     private ActivityMainBinding binding;
-
+    private ViewPager viewPager;
+    private SectionsPagerAdapter sectionsPagerAdapter;
+    private firstFragment firstFragment;
     private static final String TAG_LISTENER_FRAGMENT = "fragment_sub_tuner";
+
+    @Override
+    public void onProgressUpdate(MyPitchDifference pitchDifference) {
+
+        // Show the MainFragment by changing the selected item of the ViewPager
+        viewPager.setCurrentItem(0);
+
+        firstFragment = (com.example.appliedproject.firstFragment) sectionsPagerAdapter.getItem(0);
+        // Call the method from MainFragment
+        firstFragment.onProgressUpdate(pitchDifference);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +47,8 @@ public class MainActivity extends AppCompatActivity implements BridgeFragmentInt
 
         //binding = ActivityMainBinding.inflate(getLayoutInflater());
         //setContentView(binding.getRoot());
-
         setContentView(R.layout.activity_main);
-       /* firstFragment fragmentA = new firstFragment();
+        /* firstFragment fragmentA = new firstFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.container_a, fragmentA);
@@ -46,10 +59,11 @@ public class MainActivity extends AppCompatActivity implements BridgeFragmentInt
         fragmentTransaction2.add(R.id.container_b, fragmentB);
         fragmentTransaction2.commit();*/
 
-        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
+        sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
         //ViewPager viewPager = binding.viewPager;
-        ViewPager viewPager = findViewById(R.id.view_pager);
+        viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(sectionsPagerAdapter);
+
         //TabLayout tabs = binding.tabs;
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
@@ -65,22 +79,6 @@ public class MainActivity extends AppCompatActivity implements BridgeFragmentInt
         if (tab2 != null) {
             tab2.setText("Information");
         }
-
-        /*FloatingActionButton fab = binding.fab;
-
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar snackbar = Snackbar.make(view, "Use your support!", Snackbar.LENGTH_INDEFINITE);
-                snackbar.setAction("Alright!", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // Perform some action when the "OK" button is clicked
-                    }
-                });
-                snackbar.show();
-            }
-        });*/
     }
 
     @Override

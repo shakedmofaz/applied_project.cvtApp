@@ -5,6 +5,8 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import android.renderscript.Sampler;
 import android.view.LayoutInflater;
@@ -35,10 +37,13 @@ public class SubTunerFragment extends Fragment  {
     private PitchListener pitchListener;
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-
-        taskCallbacks = (TaskCallbacks) context;
+        try {
+            taskCallbacks = (TaskCallbacks) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + " must implement TaskCallbacks");
+        }
     }
 
     @SuppressWarnings("deprecation")
